@@ -49,7 +49,8 @@ class BoxOfficeListTableViewController: UIViewController{
         super.viewDidLoad()
         self.navigationController?.navigationBar.prefersLargeTitles = false
         
-        self.today.title = weeklyBoxOfficeListVM.getToday()
+        //오늘 날짜 초기 셋팅
+        self.today.title = try!weeklyBoxOfficeListVM.item.value().selectDate
         self.bind(targetDt: "20230415", weekGb: "0")
     }
     

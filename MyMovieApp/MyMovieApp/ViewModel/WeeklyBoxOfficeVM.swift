@@ -10,9 +10,16 @@ class WeeklyBoxOfficeListVM {
     //새로운 구독자가 등록되면 발행된 이후의 값을 발행하는 PublishSubject를 사용하여 WeeklyBoxOfficeList[] 타입의 객체를 옵져버블인 list을 생성
     let list = PublishSubject<[WeeklyBoxOfficeList]>()
     //갤런디버큐컨트롤러에서 쓸 옵져버블 item 객체 생성
-    let item = PublishSubject<Calender>()//DateFormatter().string(from: Date())
+    //let item = PublishSubject<Calender>()//DateFormatter().string(from: Date())
     //let item = BehaviorSubject<Calender>(value: Calender.init(selectDate: "hello"))
-
+    let item = BehaviorSubject<Calender>(value: Calender(selectDate: ""))
+    
+    init() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let dateString = dateFormatter.string(from: Date())
+        item.onNext(Calender(selectDate: dateString))
+    }
     //Disposable 객체들을 담을 DisposeBag 객체를 생성
     let disposeBag = DisposeBag()
     
