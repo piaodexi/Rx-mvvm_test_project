@@ -19,7 +19,6 @@
 		B5AD478429F5317400AFE5C6 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AD478329F5317400AFE5C6 /* APIService.swift */; };
 		B5AD478A29F56B8400AFE5C6 /* CalenderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AD478929F56B8400AFE5C6 /* CalenderViewController.swift */; };
 		B5E62B2B29F6DE6B007E159D /* CalenderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E62B2A29F6DE6B007E159D /* CalenderModel.swift */; };
-		B5E62B2D29F6DE96007E159D /* CalenderVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E62B2C29F6DE96007E159D /* CalenderVM.swift */; };
 		B5FF9CF029EC353600A3A4F3 /* WeeklyBoxOfficeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FF9CEF29EC353600A3A4F3 /* WeeklyBoxOfficeModel.swift */; };
 		B5FF9CF429EC38E100A3A4F3 /* BoxOfficeListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FF9CED29EC34C500A3A4F3 /* BoxOfficeListCell.swift */; };
 /* End PBXBuildFile section */
@@ -41,7 +40,6 @@
 		B5AD478329F5317400AFE5C6 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		B5AD478929F56B8400AFE5C6 /* CalenderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderViewController.swift; sourceTree = "<group>"; };
 		B5E62B2A29F6DE6B007E159D /* CalenderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderModel.swift; sourceTree = "<group>"; };
-		B5E62B2C29F6DE96007E159D /* CalenderVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderVM.swift; sourceTree = "<group>"; };
 		B5FF9CED29EC34C500A3A4F3 /* BoxOfficeListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeListCell.swift; sourceTree = "<group>"; };
 		B5FF9CEF29EC353600A3A4F3 /* WeeklyBoxOfficeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyBoxOfficeModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -120,7 +118,6 @@
 			isa = PBXGroup;
 			children = (
 				B5AD478129F5308100AFE5C6 /* WeeklyBoxOfficeVM.swift */,
-				B5E62B2C29F6DE96007E159D /* CalenderVM.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -272,7 +269,6 @@
 			files = (
 				B52BA65729EC2E0700235920 /* AppDelegate.swift in Sources */,
 				B5AD478429F5317400AFE5C6 /* APIService.swift in Sources */,
-				B5E62B2D29F6DE96007E159D /* CalenderVM.swift in Sources */,
 				B5FF9CF429EC38E100A3A4F3 /* BoxOfficeListCell.swift in Sources */,
 				B5AD478229F5308100AFE5C6 /* WeeklyBoxOfficeVM.swift in Sources */,
 				245D2E6529F8EED600764BBA /* DailyBoxOfficeModel.swift in Sources */,

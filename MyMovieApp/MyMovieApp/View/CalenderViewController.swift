@@ -9,8 +9,8 @@ import RxSwift
 
 class CalenderViewController: UIViewController, FSCalendarDataSource, FSCalendarDelegate {
     
-    @IBOutlet weak var calendarView: FSCalendar!
-    var calenderVm =  CalenderVM()
+    @IBOutlet private weak var calendarView: FSCalendar!
+    var weaklyBoxOfficeVM = WeeklyBoxOfficeListVM()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,12 +20,13 @@ class CalenderViewController: UIViewController, FSCalendarDataSource, FSCalendar
     }
     
     //캘린더에서 날짜 선택시 처리함수
-    public func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYY-MM-dd"
         //뷰가 닫힐때 선택된 날짜를 뷰모델로 넘겨줌
         dismiss(animated: true) { [weak self] in
-            self?.calenderVm.item.onNext(Calender(selectDate: dateFormatter.string(from: date)))
+            self?.weaklyBoxOfficeVM.item
+                .onNext(Calender(selectDate: dateFormatter.string(from: date)))
         }
     }
 }
