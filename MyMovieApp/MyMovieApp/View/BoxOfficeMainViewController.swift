@@ -42,21 +42,19 @@ class BoxOfficeListTableViewController: UIViewController{
     @IBOutlet private var today: UINavigationItem!
     @IBOutlet private var tableView: UITableView!
     
+    @IBOutlet private weak var segmentedControl: UISegmentedControl!
+    
     private let weeklyBoxOfficeListVM = WeeklyBoxOfficeListVM()
     private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.prefersLargeTitles = false
-        
-        //오늘 날짜 초기 셋팅
         self.today.title = try!weeklyBoxOfficeListVM.item.value().selectDate
         self.bind(targetDt: "20230415", weekGb: "0")
     }
     
-    //segue 전환 처리
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        //CalenderViewController 체크
         guard let calenderVC = segue.destination as? CalenderViewController else {
             fatalError("..")
         }
@@ -64,26 +62,90 @@ class BoxOfficeListTableViewController: UIViewController{
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: {  calender in
                 self.today.title = calender.selectDate
+                self.bind(targetDt: "20230415", weekGb: "0")
+                //self.bind(targetDt: self.today.title!.components(separatedBy: ["-"]).joined(), weekGb: "0")
             })
             .disposed(by: disposeBag)
     }
-    
-    //주간 주말 세그먼트 제어 함수
+
     @IBAction private func selectWeekedWeekday(_ sender: Any) {
         if (sender as AnyObject).selectedSegmentIndex == 0 {
-            weeklyBoxOfficeListVM.dataSetUp(targetDt: "20230415", weekGb: "0")
+            weeklyBoxOfficeListVM.dataSetUp(targetDt: self.today.title!.components(separatedBy: ["-"]).joined(), weekGb: "0")
         } else {
-            weeklyBoxOfficeListVM.dataSetUp(targetDt: "20230101", weekGb: "1")
+            print("check")
+            weeklyBoxOfficeListVM.dataSetUp(targetDt: self.today.title!.components(separatedBy: ["-"]).joined(), weekGb: "1")
         }
     }
-    
-    //테이블뷰에 데이터 바인딩
-    private func bind(targetDt: String, weekGb: String) {
-        weeklyBoxOfficeListVM.list.bind(to: tableView.rx.items(cellIdentifier: "BoxOfficeListCell")) { (index, item: WeeklyBoxOfficeList, cell: BoxOfficeListCell) in
-            cell.setData(item)
-        }.disposed(by: disposeBag)
 
+    private func bind(targetDt: String, weekGb: String) {
+        /**
+         RxCocoa를 사용하여 UITableViewCell을 구성하는 4가지 방법
+         1 rx.items(dataSource:protocol<RxTableViewDataSourceType, UITableViewDataSource>)
+         ->  RxSwift에서 제공하는 RxTableViewDataSourceType 프로토콜과 UITableViewDataSource 프로토콜을 채택한 DataSource를 이용하여 TableView의 데이터를 설정하는 Operator. 이 Operator를 쓰면 TableView의 Delegate와 DataSource를 분리하여 코드를 작성할 수 있음
+         2 rx.items(cellIdentifier:String)
+         -> tableView에서 사용할 Cell의 Identifier를 지정하여, TableView의 데이터를 설정하는 Operator. 이 Operator를 쓰면 TableView의 DataSource를 구현하지 않아도 됨
+         3 rx.items(cellIdentifier:String:Cell.Type:_:)
+         -> tableView에서 사용할 Cell의 Identifier와 Cell 클래스를 지정하여, TableView의 데이터를 설정하는 Operator. 이 Operator를 이용하면 TableView의 DataSource를 구현하지 않아도되고 셀 커스텀도 가능
+         4 rx.items(_:_:)
+         -> tableView에서 사용할 Section과 Cell을 커스텀하여 지정하여, TableView의 데이터를 설정하는 Operator. 이 Operator를 이용하면 TableView의 DataSource를 구현하지 않아도 되고 Section을 사용하여 TableView의 데이터를 구성할 수 있음
+         */
+        /**
+         아래 코드가 가독성이 안좋음
+         왜냐하면 줄바꿈을 할 수 있음에도 불구하고 한줄에 작성을 해놓았기 때문에
+         weeklyBoxOfficeListVM.list
+             .bind(to: tableView.rx.items(cellIdentifier: "BoxOfficeListCell")) { (index, item: WeeklyBoxOfficeList, cell: BoxOfficeListCell) in
+             cell.setData(item)
+         }.disposed(by: disposeBag)
+         */
+//        weeklyBoxOfficeListVM.list
+//            .bind(to: tableView.rx.items(cellIdentifier: "BoxOfficeListCell")) { (index, item: WeeklyBoxOfficeList, cell: BoxOfficeListCell) in
+//            cell.setData(item)
+//        }.disposed(by: disposeBag)
+        //줄바꿈과 더불어 rxcocoa를 사용하여 uitableviewcell을 구성하는 4가지 방법중 하나로 변경해서 작성함.
+        weeklyBoxOfficeListVM.list
+            .asObservable()
+            .bind(to: tableView.rx.items(
+                cellIdentifier: "BoxOfficeListCell",
+                cellType: BoxOfficeListCell.self)) { index, item, cell in
+                    cell.setData(item)
+            }.disposed(by: disposeBag)
+//
         weeklyBoxOfficeListVM.dataSetUp(targetDt: targetDt, weekGb: weekGb)
     }
+    
+//-------------input output 패턴 ---------------------
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//        self.navigationController?.navigationBar.prefersLargeTitles = false
+//        weeklyBoxOfficeListVM.titleOutput
+//            .observe(on: MainScheduler.instance)
+//            .bind(to: today.rx.title)
+//            .disposed(by: disposeBag)
+//
+//        weeklyBoxOfficeListVM.selectDateInput.onNext(Date())
+//        self.bind()
+//    }
+//
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        guard let calenderVC = segue.destination as? CalenderViewController else {
+//            fatalError("..")
+//        }
+//        calenderVC.weaklyBoxOfficeVM = weeklyBoxOfficeListVM
+//    }
+//
+//    private func bind() {
+//        segmentedControl.rx.selectedSegmentIndex
+//            .map { $0 == 0 ? ("20230415", "0") : ("20230101", "1") }
+//            .bind {  targetDt, weekGb in
+//                self.weeklyBoxOfficeListVM.targetDateInput.onNext(targetDt)
+//                self.weeklyBoxOfficeListVM.weekGbInput.onNext(weekGb)
+//            }
+//            .disposed(by: disposeBag)
+//
+//        weeklyBoxOfficeListVM.listOutput
+//            .bind(to: tableView.rx.items(cellIdentifier: "BoxOfficeListCell")) { (index, item: WeeklyBoxOfficeList, cell: BoxOfficeListCell) in
+//                cell.setData(item)
+//            }
+//            .disposed(by: disposeBag)
+//    }
 }
-

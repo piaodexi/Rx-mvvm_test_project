@@ -7,21 +7,22 @@
 import RxSwift
 
 class WeeklyBoxOfficeListVM {
+    //Disposable 객체들을 담을 DisposeBag 객체를 생성
+    let disposeBag = DisposeBag()
     //새로운 구독자가 등록되면 발행된 이후의 값을 발행하는 PublishSubject를 사용하여 WeeklyBoxOfficeList[] 타입의 객체를 옵져버블인 list을 생성
     let list = PublishSubject<[WeeklyBoxOfficeList]>()
     //갤런디버큐컨트롤러에서 쓸 옵져버블 item 객체 생성
+    //PublishSubject가 아닌 BehaviorSubject를 사용하여 처리
     //let item = PublishSubject<Calender>()//DateFormatter().string(from: Date())
-    //let item = BehaviorSubject<Calender>(value: Calender.init(selectDate: "hello"))
     let item = BehaviorSubject<Calender>(value: Calender(selectDate: ""))
-    
+   //오늘날짜로 초기값을 잡아줌.
     init() {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let dateString = dateFormatter.string(from: Date())
         item.onNext(Calender(selectDate: dateString))
     }
-    //Disposable 객체들을 담을 DisposeBag 객체를 생성
-    let disposeBag = DisposeBag()
+    
     
     //주간 주말리스트 처리
     func dataSetUp(targetDt: String, weekGb: String) {
@@ -34,12 +35,37 @@ class WeeklyBoxOfficeListVM {
                 self.list.onNext(weeklyBoxOfficeList)
             }).disposed(by: disposeBag)
     }
-    
-    //오늘날짜 반환
-    func getToday() -> String {
-        let formatter = DateFormatter()
-         formatter.dateFormat = "yyyy-MM-dd"
-         let current_date_string = formatter.string(from: Date())
-         return current_date_string
-    }
+    /**
+     
+     */
+//-------------input output 패턴 ---------------------
+//    // Input
+//    let selectDateInput = PublishSubject<Date>()
+//    let targetDateInput = PublishSubject<String>()
+//    let weekGbInput = PublishSubject<String>()
+//
+//    // Output
+//    let titleOutput = BehaviorSubject<String>(value: "")
+//    let listOutput = BehaviorSubject<[WeeklyBoxOfficeList]>(value: [])
+//
+//    init() {
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "yyyy-MM-dd"
+//        selectDateInput
+//            .map { dateFormatter.string(from: $0) }
+//            .bind(to: titleOutput)
+//            .disposed(by: disposeBag)
+//
+
+    //   //combineLatest() 메소드는 두 Observable에서 최신 값을 가져와서 튜플로 반환
+//        Observable.combineLatest(targetDateInput, weekGbInput)
+        //APIService.loadBoxOffice() 메소드가 반환하는 새로운 Observable로 전환,flatMapLatest()는 새로운 Observable을 반환하므로 새로운 값을 방출하면 기존의 Observable을 취소하고 새로운 Observable에 대한 구독을 시작
+//            .flatMapLatest { (targetDt, weekGb) in
+//                APIService.loadBoxOffice(targetDt: targetDt, weekGb: weekGb)
+//            }
+//            .observe(on: MainScheduler.instance)
+    //          // listOutput Observable과 UITableView에 데이터를 바인딩
+    //            .bind(to: listOutput)
+//            .disposed(by: disposeBag)
+//    }
 }
