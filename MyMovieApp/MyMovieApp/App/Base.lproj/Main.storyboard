@@ -41,20 +41,20 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="BoxOfficeListCell" id="VT0-rM-OBe" customClass="BoxOfficeListCell" customModule="MyMovieApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="50" width="361" height="43"/>
+                                        <rect key="frame" x="0.0" y="50" width="361" height="43.666667938232422"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="VT0-rM-OBe" id="qaG-6f-Ieq">
-                                            <rect key="frame" x="0.0" y="0.0" width="361" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="361" height="43.666667938232422"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fPG-du-g2m">
-                                                    <rect key="frame" x="20" y="11" width="42" height="21"/>
+                                                    <rect key="frame" x="20" y="11.000000000000002" width="42" height="21.666666666666671"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eyj-MC-nyF">
-                                                    <rect key="frame" x="70" y="11" width="165" height="21"/>
+                                                    <rect key="frame" x="70" y="11.000000000000002" width="165" height="21.666666666666671"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="165" id="h0j-ib-vS8"/>
                                                     </constraints>
@@ -102,7 +102,7 @@
                                     <segment title="주말"/>
                                 </segments>
                                 <connections>
-                                    <action selector="selectWeekedWeekday:" destination="Sa9-oR-dF6" eventType="valueChanged" id="SWQ-fF-eLT"/>
+                                    <action selector="selectWeekedWeekday:" destination="Sa9-oR-dF6" eventType="valueChanged" id="n1M-Gg-fPG"/>
                                 </connections>
                             </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="박스오피스" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lQo-CP-xHf">
@@ -135,6 +135,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="segmentedControl" destination="v9Y-Bx-q4D" id="ixp-4A-i5c"/>
                         <outlet property="tableView" destination="xdA-JO-bma" id="OYF-Mv-dU4"/>
                         <outlet property="today" destination="o7V-T2-puX" id="UUb-QL-yMh"/>
                     </connections>
